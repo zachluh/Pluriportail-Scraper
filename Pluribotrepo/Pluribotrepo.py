@@ -14,6 +14,19 @@ intents.guilds = True
 
 classes = []
 
+class Embeds():
+    def __init__(self):
+        pass
+    def getScheduleEmbed(self, class_list):
+        embed = discord.Embed(
+                title = "Your schedule for today is:",
+                description = ", ".join(class_list),
+                color = discord.Color.green()
+            )
+        embed.set_thumbnail(url="https://store-images.s-microsoft.com/image/apps.3640.13510798887684659.37ddc7c7-7c13-48db-b3df-cfbdf6bb7f5c.ef84f088-428e-43d1-b45b-07da23f43efc?mode=scale&q=90&h=300&w=300")
+        return embed
+embedder = Embeds()
+
 PATH = r"C:\Users\bruhm\Desktop\chromedriver\chromedriver.exe"
 
 today = date.today()
@@ -32,8 +45,8 @@ def day_switcher(day):
             'Monday': [1, 6],
             'Tuesday': [6, 11],
             'Wednesday': [11, 15],
-            'Thursday':  [15, 21],
-            'Friday': [21, 26]
+            'Thursday':  [15, 20],
+            'Friday': [20, 25]
         }
     return switcher.get(day, "dumbass")
 
@@ -61,7 +74,7 @@ async def on_ready():
     for i in range(day_array[0], day_array[1]):
         stri = str(i)
         classes.append(driver.find_element_by_xpath(f'//*[@id="CaseItem{stri}"]/div/div[1]').text)
-    await channel.send(" ".join(classes))
+    await channel.send(embed=embedder.getScheduleEmbed(classes))
 
 
 
