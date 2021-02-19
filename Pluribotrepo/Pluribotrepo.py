@@ -14,6 +14,7 @@ intents.guilds = True
 
 classes = []
 
+#classes here
 class Embeds():
     def __init__(self):
         pass
@@ -27,6 +28,7 @@ class Embeds():
         return embed
 embedder = Embeds()
 
+#make sure to change the path
 PATH = r"C:\Users\bruhm\Desktop\chromedriver\chromedriver.exe"
 
 today = date.today()
