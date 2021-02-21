@@ -72,11 +72,16 @@ async def on_ready():
     print("lets go")
     driver = wb.Chrome(PATH)
     login(driver, credslist[1], credslist[2])
-    channel = bot.get_channel(811659339559075890)
     for i in range(day_array[0], day_array[1]):
         stri = str(i)
         classes.append(driver.find_element_by_xpath(f'//*[@id="CaseItem{stri}"]/div/div[1]').text)
-    await channel.send(embed=embedder.getScheduleEmbed(classes))
+    message = bot.fetch_message(812333382540984412)
+    if message is None:
+        channel = bot.get_channel(812332956101509130)
+        await channel.send(embed=embedder.getScheduleEmbed(classes))
+    else:
+        await message.edit(embed=embedder.getScheduleEmbed(classes))
+
 
 
 
