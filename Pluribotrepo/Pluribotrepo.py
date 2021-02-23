@@ -75,9 +75,9 @@ async def on_ready():
     for i in range(day_array[0], day_array[1]):
         stri = str(i)
         classes.append(driver.find_element_by_xpath(f'//*[@id="CaseItem{stri}"]/div/div[1]').text)
-    message = bot.fetch_message(812333382540984412)
+    channel = bot.get_channel(812332956101509130)
+    message = await channel.fetch_message(812333382540984412)
     if message is None:
-        channel = bot.get_channel(812332956101509130)
         await channel.send(embed=embedder.getScheduleEmbed(classes))
     else:
         await message.edit(embed=embedder.getScheduleEmbed(classes))
