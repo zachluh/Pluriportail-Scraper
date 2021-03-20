@@ -47,8 +47,10 @@ def day_switcher(day):
             'Monday': [1, 6],
             'Tuesday': [6, 11],
             'Wednesday': [11, 15],
-            'Thursday':  [15, 20],
-            'Friday': [20, 25]
+            'Thursday':  [16, 21],
+            'Friday': [21, 26],
+            'Saturday': [1, 6],
+            'Sunday': [1, 6]
         }
     return switcher.get(day, "dumbass")
 
