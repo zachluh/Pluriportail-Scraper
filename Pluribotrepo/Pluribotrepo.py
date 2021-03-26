@@ -6,6 +6,7 @@ from datetime import date
 from selenium import webdriver as wb
 from selenium.webdriver.common.keys import Keys
 import os
+import user
 
 intents = discord.Intents.none()
 intents.reactions = True
@@ -21,11 +22,14 @@ class Embeds():
     def getScheduleEmbed(self, class_list):
         embed = discord.Embed(
                 title = "Your schedule for today is:",
-                description = ", ".join(class_list),
+                description = "\n".join(class_list),
                 color = discord.Color.green()
             )
         embed.set_thumbnail(url="https://store-images.s-microsoft.com/image/apps.3640.13510798887684659.37ddc7c7-7c13-48db-b3df-cfbdf6bb7f5c.ef84f088-428e-43d1-b45b-07da23f43efc?mode=scale&q=90&h=300&w=300")
         return embed
+
+
+
 embedder = Embeds()
 
 #make sure to change the path
@@ -72,6 +76,7 @@ bot = Bot(command_prefix="pl!")
 @bot.event
 async def on_ready():
     print("lets go")
+    await bot.change_presence(activity=discord.Game(name="the system // pl!"))
     driver = wb.Chrome(PATH)
     login(driver, credslist[1], credslist[2])
     for i in range(day_array[0], day_array[1]):
