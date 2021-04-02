@@ -9,15 +9,15 @@ class user(commands.Cog):
         self.credmessage = credmessage
         self.discord_user = discord_user
 
-    async def create_new_profile(self, ctx, message_id=credmessage.id):
+    async def create_new_profile(self, ctx):
 
-       message = await bot.fetch_message(message_id)
+       message = await ctx.fetch_message(self.credmessage.id)
 
-       with open(f"{str(discord_user.id)}.txt", "w") as f:
-           f.write(message_id)
+       with open(f"{str(self.discord_user.id)}.txt", "w") as f:
+           f.write(str(self.credmessage.id))
            
-    async def user_login_creation():
-        with open(f"{str(discord_user.id)}.txt", "r") as f:
+    async def user_login_creation(self):
+        with open(f"{str(self.discord_user.id)}.txt", "r") as f:
             creds = f.read()
 
         final_creds = creds.split()

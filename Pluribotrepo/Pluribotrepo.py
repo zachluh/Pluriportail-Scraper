@@ -6,7 +6,7 @@ from datetime import date
 from selenium import webdriver as wb
 from selenium.webdriver.common.keys import Keys
 import os
-import user
+from user import user 
 
 intents = discord.Intents.none()
 intents.reactions = True
@@ -89,6 +89,13 @@ async def on_ready():
     else:
         await message.edit(embed=embedder.getScheduleEmbed(classes))
 
+@bot.command()
+async def registeraccount(ctx, name, password):
+    author_id = ctx.author
+    await ctx.send("ok, im gonna resend a message with your creds so i can remember them, thanks")
+    message = await ctx.send(f"{name} {password}")
+    new_user =  user(bot, message, ctx.author)
+    await new_user.create_new_profile(ctx)
 
 
 
