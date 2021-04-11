@@ -60,7 +60,6 @@ def day_switcher(day):
 
 day_array = day_switcher(weekday)
 print(day_array)
-print(day_array[0])
 
 
 
@@ -71,6 +70,7 @@ with open(r"C:\Users\bruhm\Documents\pluricreds.txt", "r") as f:
     credslist = f.readlines()
 
 bot = Bot(command_prefix="pl!")
+bot.load_extension('session')
 
 
 @bot.event
@@ -94,8 +94,8 @@ async def registeraccount(ctx, name, password):
     author_id = ctx.author
     await ctx.send("ok, im gonna resend a message with your creds so i can remember them, thanks")
     message = await ctx.send(f"{name} {password}")
-    new_user =  user(bot, message, ctx.author)
-    await new_user.create_new_profile(ctx)
+    new_user =  user(bot, ctx.author)
+    await new_user.create_new_profile(ctx, message)
 
 
 
