@@ -3,10 +3,13 @@ import selenium
 import calendar
 from discord.ext.commands import Bot
 from datetime import date
+import datetime
 from selenium import webdriver as wb
 from selenium.webdriver.common.keys import Keys
 import os
-from user import user 
+from user import user
+import session
+import time
 
 intents = discord.Intents.none()
 intents.reactions = True
@@ -19,9 +22,9 @@ classes = []
 class Embeds():
     def __init__(self):
         pass
-    def getScheduleEmbed(self, class_list):
+    def getScheduleEmbed(self, class_list, tomorrow):
         embed = discord.Embed(
-                title = "Your schedule for today is:",
+                title = f"Your schedule for {tomorrow} is:",
                 description = "\n".join(class_list),
                 color = discord.Color.green()
             )
@@ -30,12 +33,16 @@ class Embeds():
 
 
 
+
 embedder = Embeds()
 
 #make sure to change the path
 PATH = r"C:\Users\bruhm\Desktop\chromedriver\chromedriver.exe"
 
+driver = wb.Chrome(PATH)
+
 today = date.today()
+tomorrow = calendar.day_name[(date.today() + datetime.timedelta(1)).weekday()]
 weekday = calendar.day_name[today.weekday()]
 
 
@@ -48,11 +55,11 @@ def login(driver, user:str, password:str):
 
 def day_switcher(day):
     switcher = {
-            'Monday': [1, 6],
-            'Tuesday': [6, 11],
-            'Wednesday': [11, 15],
-            'Thursday':  [16, 21],
-            'Friday': [21, 26],
+            'Monday': [6, 11],
+            'Tuesday': [11, 15],
+            'Wednesday': [15, 20],
+            'Thursday':  [20, 25],
+            'Friday': [1, 6],
             'Saturday': [1, 6],
             'Sunday': [1, 6]
         }
@@ -77,7 +84,7 @@ bot.load_extension('session')
 async def on_ready():
     print("lets go")
     await bot.change_presence(activity=discord.Game(name="the system // pl!"))
-    driver = wb.Chrome(PATH)
+    
     login(driver, credslist[1], credslist[2])
     for i in range(day_array[0], day_array[1]):
         stri = str(i)
@@ -85,9 +92,9 @@ async def on_ready():
     channel = bot.get_channel(812332956101509130)
     message = await channel.fetch_message(812333382540984412)
     if message is None:
-        await channel.send(embed=embedder.getScheduleEmbed(classes))
+        await channel.send(embed=embedder.getScheduleEmbed(classes, tomorrow))
     else:
-        await message.edit(embed=embedder.getScheduleEmbed(classes))
+        await message.edit(embed=embedder.getScheduleEmbed(classes, tomorrow))
 
 @bot.command()
 async def registeraccount(ctx, name, password):

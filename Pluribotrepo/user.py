@@ -15,12 +15,14 @@ class user(commands.Cog):
        with open(f"{str(self.discord_user.id)}.txt", "w") as f:
            f.write(str(self.credmessage.id))
            
-    async def user_login_creation(self):
+    async def user_login_creation(self, ctx):
         with open(f"{str(self.discord_user.id)}.txt", "r") as f:
             creds = f.read()
 
-        final_creds = creds.split()
-        return final_creds
+        message = await ctx.fetch_message(creds)
+        login_creds = message.content.split()
+
+        return login_creds
 
 
 
